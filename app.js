@@ -1,20 +1,19 @@
 const loadAllData = async () => {
     const res = await fetch("https://openapi.programming-hero.com/api/ai/tools");
     const data = await res.json();
-    showData(data.data.tools.slice(0, 6));
+    firstSixCardShow(data.data.tools.slice(0, 6));
 };
 
 const showAllData = async () => {
     const res = await fetch("https://openapi.programming-hero.com/api/ai/tools");
     const data = await res.json();
-    showData(data.data.tools);
+    firstSixCardShow(data.data.tools);
 };
-const showData = (features) => {
+const firstSixCardShow = (features) => {
     const containerCard = document.getElementById('container-card');
-    // console.log(data);
+    
     features.forEach(feature => {
-        // element.slice(0,6);
-        // console.log(feature.id);
+        
         const cardDiv = document.createElement('div');
         cardDiv.classList.add('col');
         cardDiv.innerHTML = `
@@ -34,7 +33,7 @@ const showData = (features) => {
                         <h5 class="card-title">${feature.name}</h5>
                         <p class="card-text"><i class="fa-sharp fa-solid fa-calendar-days"></i> ${feature.published_in ? feature.published_in : 'No Date Found'}</p>
                     </div>
-                    <i onClick="getDetailsData('${feature.id}')" class="fa-solid fa-arrow-right ms-auto text-danger bg-secondary p-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#aiModal"></i>
+                    <i onClick="getDetailsData('${feature.id}')" class="fa-solid fa-arrow-right ms-auto $red-300 bg-subtle p-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#aiModal"></i>
                     
                     
                 <div/>
@@ -51,19 +50,19 @@ const getDetailsData = (id) => {
     const URL = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
     fetch(URL)
         .then((res) => res.json())
-        .then((data) => displaySingleData(data.data));
+        .then((data) => displayDetailData(data.data));
 
 
 };
-const displaySingleData = (data) => {
+const displayDetailData = (data) => {
     console.log(data);
-    const singleDataContainer = document.getElementById('singleDataContainer');
-    singleDataContainer.innerHTML = '';
+    const detailDataContainer = document.getElementById('detailDataContainer');
+    detailDataContainer.innerHTML = '';
     const modalInfo = document.createElement('div');
     modalInfo.innerHTML = `
 <!-- Modal Body Start  -->
-   <div class="d-flex justify-content-center" style="align-items: center;">
-      <div class="col ">
+   <div class="d-flex justify-content-center col w-auto " style="">
+      <div class="col container border border-danger bg-danger-subtle  ">
            <div class="card ">
                 <div class="card-body ">
                     <h5 class="card-title text-black ">${data.description}</h5>
@@ -114,7 +113,7 @@ const displaySingleData = (data) => {
   
       <!-- Modal Body End  -->
       `;
-singleDataContainer.appendChild(modalInfo);
+detailDataContainer.appendChild(modalInfo);
 
 };
 loadAllData();
